@@ -1,11 +1,10 @@
-/.gradle/
-/*/bin/
-/*/bin_test/
-/*/generated/
-/*/doc/
-.DS_Store
-Thumbs.db
-.metadata/
-scrapbook.jpage
-/.recommenders/
-matrix.json
+target/
+bin/
+bin_test/
+generated/
+.classpath
+.project
+.settings/
+
+# flatten-maven-plugin resolves ${revision} into this file at build time
+.flattened-pom.xml

@@ -7,7 +7,7 @@
 	<artifactId>org.osgi.annotation.bundle.reactor</artifactId>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
-	<description>OSGi Specification repo for org.osgi.annotation.bundle</description>
+	<description>OSGi Bundle Annotations (Core Framework API)</description>
 
 	<!-- The version lives in exactly one place: .mvn/maven.config
 	     (-Drevision=...). Maven picks that file up from the repo root for
@@ -53,6 +53,10 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<properties>
+		<osgi.scm.repository>osgi/org.osgi.annotation.bundle</osgi.scm.repository>
+	</properties>
 
 	<modules>
 		<module>api</module>

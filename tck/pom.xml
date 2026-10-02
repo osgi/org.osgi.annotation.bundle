@@ -26,7 +26,7 @@
 		<servicemix-junit.version>4.13.2_1</servicemix-junit.version>
 		<org.osgi.util.function.version>1.0.0</org.osgi.util.function.version>
 		<org.osgi.util.converter.version>1.0.9</org.osgi.util.converter.version>
-		<org.eclipse.osgi.version>3.18.100</org.eclipse.osgi.version>
+		<org.eclipse.osgi.version>3.24.300</org.eclipse.osgi.version>
 	</properties>
 
 	<modules>

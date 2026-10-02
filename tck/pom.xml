@@ -26,6 +26,7 @@
 		<servicemix-junit.version>4.13.2_1</servicemix-junit.version>
 		<org.osgi.util.function.version>1.0.0</org.osgi.util.function.version>
 		<org.osgi.util.converter.version>1.0.9</org.osgi.util.converter.version>
+		<org.apache.felix.framework.version>7.0.5</org.apache.felix.framework.version>
 		<org.eclipse.osgi.version>3.24.300</org.eclipse.osgi.version>
 	</properties>
 
@@ -33,6 +34,7 @@
 		<module>org.osgi.test.cases.bundle.annotations</module>
 		<module>org.osgi.impl.bundle.annotations</module>
 		<module>org.osgi.test.run.annotation.bundle</module>
+		<module>org.osgi.test.run.annotation.bundle.felix</module>
 	</modules>
 
 </project>

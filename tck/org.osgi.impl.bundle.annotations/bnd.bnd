@@ -1,0 +1,7 @@
+# Set javac settings from JDT prefs
+
+Bundle-Description			= Annotations Test Bundle
+
+-privatepackage 			= ${p}.*
+
+p: org.osgi.impl.bundle.annotations

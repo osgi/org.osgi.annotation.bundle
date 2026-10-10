@@ -29,7 +29,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.osgi.framework.Version;
 import org.osgi.resource.Capability;
-import org.osgi.test.support.string.Strings;
 
 public class CapabilityAnnotationsTestClass extends AnnotationsTestCase {
 
@@ -44,7 +43,7 @@ public class CapabilityAnnotationsTestClass extends AnnotationsTestCase {
 	}
 
 	private void testAnnotatedCapability() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		String name = "allOptions";
 		Capability capability = getCapability(namespace);
 		Map<String,String> directives = capability.getDirectives();
@@ -56,7 +55,7 @@ public class CapabilityAnnotationsTestClass extends AnnotationsTestCase {
 						"doubleAttr", "versionAttr", "longList", "stringList",
 						"doubleList", "versionList",
 						CAPABILITY_VERSION_ATTRIBUTE, namespace);
-		assertThat(Strings.split(directives.get(CAPABILITY_USES_DIRECTIVE)))
+		assertThat(Arrays.asList(directives.get(CAPABILITY_USES_DIRECTIVE).trim().split("\\s*,\\s*")))
 				.containsExactlyInAnyOrder(
 						"org.osgi.impl.bundle.annotations.reqcap",
 						"org.osgi.impl.bundle.annotations.export");
@@ -88,7 +87,7 @@ public class CapabilityAnnotationsTestClass extends AnnotationsTestCase {
 
 	@Test
 	public void testDirectlyAnnotatedDefaultOptions() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		Capability capability = getCapability(namespace);
 		Map<String,String> directives = capability.getDirectives();
 		assertThat(directives).as("capability directives").isEmpty();
@@ -99,7 +98,7 @@ public class CapabilityAnnotationsTestClass extends AnnotationsTestCase {
 
 	@Test
 	public void testDirectlyAnnotatedAttributes() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		Capability capability = getCapability(namespace);
 		Map<String,String> directives = capability.getDirectives();
 		assertThat(directives).as("capability directives")
@@ -125,7 +124,7 @@ public class CapabilityAnnotationsTestClass extends AnnotationsTestCase {
 
 	@Test
 	public void testDirectlyAnnotatedAttributesDefaults() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		Capability capability = getCapability(namespace);
 		Map<String,String> directives = capability.getDirectives();
 		assertThat(directives).as("capability directives").isEmpty();
@@ -136,7 +135,7 @@ public class CapabilityAnnotationsTestClass extends AnnotationsTestCase {
 
 	@Test
 	public void testOverriding() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		String name = "override";
 		Capability capability = getCapability(namespace);
 		Map<String,String> directives = capability.getDirectives();

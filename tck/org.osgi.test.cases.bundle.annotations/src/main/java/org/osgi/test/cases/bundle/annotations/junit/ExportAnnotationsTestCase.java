@@ -25,6 +25,8 @@ import static org.osgi.framework.namespace.PackageNamespace.CAPABILITY_VERSION_A
 import static org.osgi.framework.namespace.PackageNamespace.PACKAGE_NAMESPACE;
 import static org.osgi.resource.Namespace.CAPABILITY_USES_DIRECTIVE;
 import static org.osgi.resource.Namespace.REQUIREMENT_FILTER_DIRECTIVE;
+import static org.osgi.test.common.dictionary.Dictionaries.asMap;
+import static org.osgi.test.common.dictionary.Dictionaries.dictionaryOf;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -35,8 +37,6 @@ import org.osgi.framework.Version;
 import org.osgi.resource.Capability;
 import org.osgi.resource.Requirement;
 import org.osgi.test.assertj.filter.FilterCondition;
-import org.osgi.test.support.map.Maps;
-import org.osgi.test.support.string.Strings;
 
 @SuppressWarnings("unused")
 public class ExportAnnotationsTestCase extends AnnotationsTestCase {
@@ -99,22 +99,22 @@ public class ExportAnnotationsTestCase extends AnnotationsTestCase {
 		Requirement pkg = getPackageRequirement(pkgName);
 		Map<String,String> directives = pkg.getDirectives();
 		String filterString = directives.get(REQUIREMENT_FILTER_DIRECTIVE);
-		Filter filter = getContext().createFilter(filterString);
+		Filter filter = context.createFilter(filterString);
 		assertThat(filter)
 				.as("Package %s requirement filter incorrect: %s", pkgName,
 						filterString)
-				.is(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+				.is(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.0"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("1.0")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("0.9"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("0.9")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.1"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("1.1")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("2.0"))));
+						Version.valueOf("2.0")))));
 	}
 
 	@Test
@@ -127,22 +127,22 @@ public class ExportAnnotationsTestCase extends AnnotationsTestCase {
 		Requirement pkg = getPackageRequirement(pkgName);
 		Map<String,String> directives = pkg.getDirectives();
 		String filterString = directives.get(REQUIREMENT_FILTER_DIRECTIVE);
-		Filter filter = getContext().createFilter(filterString);
+		Filter filter = context.createFilter(filterString);
 		assertThat(filter)
 				.as("Package %s requirement filter incorrect: %s", pkgName,
 						filterString)
-				.is(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+				.is(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.0"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("1.0")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("0.9"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("0.9")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.1"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("1.1")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("2.0"))));
+						Version.valueOf("2.0")))));
 	}
 
 	@Test
@@ -155,22 +155,22 @@ public class ExportAnnotationsTestCase extends AnnotationsTestCase {
 		Requirement pkg = getPackageRequirement(pkgName);
 		Map<String,String> directives = pkg.getDirectives();
 		String filterString = directives.get(REQUIREMENT_FILTER_DIRECTIVE);
-		Filter filter = getContext().createFilter(filterString);
+		Filter filter = context.createFilter(filterString);
 		assertThat(filter)
 				.as("Package %s requirement filter incorrect: %s", pkgName,
 						filterString)
-				.is(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+				.is(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.0"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("1.0")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("0.9"))))
-				.is(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("0.9")))))
+				.is(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.1"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("1.1")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("2.0"))));
+						Version.valueOf("2.0")))));
 	}
 
 	@Test
@@ -201,7 +201,7 @@ public class ExportAnnotationsTestCase extends AnnotationsTestCase {
 		Map<String,String> directives = pkg.getDirectives();
 		assertThat(directives).as("Package capability directives")
 				.containsKey(CAPABILITY_USES_DIRECTIVE);
-		assertThat(Strings.split(directives.get(CAPABILITY_USES_DIRECTIVE)))
+		assertThat(Arrays.asList(directives.get(CAPABILITY_USES_DIRECTIVE).trim().split("\\s*,\\s*")))
 				.containsExactlyInAnyOrder("bar", "foo");
 	}
 
@@ -212,7 +212,7 @@ public class ExportAnnotationsTestCase extends AnnotationsTestCase {
 		Map<String,String> directives = pkg.getDirectives();
 		assertThat(directives).as("Package capability directives")
 				.containsKey(CAPABILITY_USES_DIRECTIVE);
-		assertThat(Strings.split(directives.get(CAPABILITY_USES_DIRECTIVE)))
+		assertThat(Arrays.asList(directives.get(CAPABILITY_USES_DIRECTIVE).trim().split("\\s*,\\s*")))
 				.containsExactlyInAnyOrder(
 						"org.osgi.impl.bundle.annotations.export.uses");
 	}
@@ -227,22 +227,22 @@ public class ExportAnnotationsTestCase extends AnnotationsTestCase {
 		Requirement pkg = getPackageRequirement(pkgName);
 		Map<String,String> directives = pkg.getDirectives();
 		String filterString = directives.get(REQUIREMENT_FILTER_DIRECTIVE);
-		Filter filter = getContext().createFilter(filterString);
+		Filter filter = context.createFilter(filterString);
 		assertThat(filter)
 				.as("Package %s requirement filter incorrect: %s", pkgName,
 						filterString)
-				.is(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+				.is(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.0"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("1.0")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("0.9"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("0.9")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.1"))))
-				.isNot(new FilterCondition(Maps.mapOf(PACKAGE_NAMESPACE,
+						Version.valueOf("1.1")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(PACKAGE_NAMESPACE,
 						pkgName, CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("2.0"))));
+						Version.valueOf("2.0")))));
 	}
 
 }

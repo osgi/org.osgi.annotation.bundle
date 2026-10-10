@@ -22,29 +22,40 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.osgi.framework.namespace.PackageNamespace.PACKAGE_NAMESPACE;
 import static org.osgi.resource.Namespace.REQUIREMENT_FILTER_DIRECTIVE;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.wiring.BundleRevision;
 import org.osgi.resource.Capability;
 import org.osgi.resource.Requirement;
-import org.osgi.test.support.junit5.AbstractOSGiTestCase;
+import org.osgi.test.common.annotation.InjectBundleContext;
 
-public abstract class AnnotationsTestCase extends AbstractOSGiTestCase {
+public abstract class AnnotationsTestCase {
+	@InjectBundleContext
+	protected BundleContext	context;
+	protected String			testMethodName;
 	protected Bundle			impl;
 	protected BundleRevision	revision;
 
 	@BeforeEach
+	void testMethodName(TestInfo testInfo) {
+		testMethodName = testInfo.getTestMethod().map(Method::getName).get();
+	}
+
+	@BeforeEach
 	public void obtainBundleRevision() throws Exception {
 		final String propName = "org.osgi.test.cases.bundle.annotations.bundle.symbolic.name";
-		String bsn = getProperty(propName);
+		String bsn = context.getProperty(propName);
 		assertThat(bsn).as(
 				"The system property \"%s\" must be set to the Bundle Symbolic Name of the bundle processed by the Bundle Annotations tool.",
 				propName).isNotNull();
 		impl = null;
-		for (Bundle b : getContext().getBundles()) {
+		for (Bundle b : context.getBundles()) {
 			if (bsn.equals(b.getSymbolicName())) {
 				impl = b;
 				break;
@@ -62,7 +73,6 @@ public abstract class AnnotationsTestCase extends AbstractOSGiTestCase {
 		List<Capability> capabilities = revision
 				.getCapabilities(PACKAGE_NAMESPACE);
 		assertThat(capabilities).as("Package capabilities")
-				.isNotNull()
 				.isNotEmpty();
 		for (Capability capability : capabilities) {
 			Map<String,Object> attributes = capability.getAttributes();
@@ -91,7 +101,6 @@ public abstract class AnnotationsTestCase extends AbstractOSGiTestCase {
 		List<Requirement> requirements = revision
 				.getRequirements(PACKAGE_NAMESPACE);
 		assertThat(requirements).as("Package %s requirements", name)
-				.isNotNull()
 				.isNotEmpty();
 		String packageFilter = "(" + PACKAGE_NAMESPACE + "=" + name + ")";
 		for (Requirement requirement : requirements) {
@@ -121,7 +130,6 @@ public abstract class AnnotationsTestCase extends AbstractOSGiTestCase {
 	public Requirement getRequirement(String namespace) {
 		List<Requirement> requirements = revision.getRequirements(namespace);
 		assertThat(requirements).as("%s requirements", namespace)
-				.isNotNull()
 				.hasSize(1);
 		return requirements.get(0);
 	}
@@ -129,7 +137,6 @@ public abstract class AnnotationsTestCase extends AbstractOSGiTestCase {
 	public Capability getCapability(String namespace) {
 		List<Capability> capabilities = revision.getCapabilities(namespace);
 		assertThat(capabilities).as("%s capabilities", namespace)
-				.isNotNull()
 				.hasSize(1);
 		return capabilities.get(0);
 	}

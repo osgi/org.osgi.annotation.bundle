@@ -26,6 +26,8 @@ import static org.osgi.resource.Namespace.REQUIREMENT_EFFECTIVE_DIRECTIVE;
 import static org.osgi.resource.Namespace.REQUIREMENT_FILTER_DIRECTIVE;
 import static org.osgi.resource.Namespace.REQUIREMENT_RESOLUTION_DIRECTIVE;
 import static org.osgi.resource.Namespace.RESOLUTION_OPTIONAL;
+import static org.osgi.test.common.dictionary.Dictionaries.asMap;
+import static org.osgi.test.common.dictionary.Dictionaries.dictionaryOf;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -35,7 +37,6 @@ import org.osgi.framework.Filter;
 import org.osgi.framework.Version;
 import org.osgi.resource.Requirement;
 import org.osgi.test.assertj.filter.FilterCondition;
-import org.osgi.test.support.map.Maps;
 
 public class RequirementAnnotationsTestClass extends AnnotationsTestCase {
 
@@ -50,7 +51,7 @@ public class RequirementAnnotationsTestClass extends AnnotationsTestCase {
 	}
 
 	private void testAnnotatedRequirement() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		String name = "allOptions";
 		Requirement requirement = getRequirement(namespace);
 		Map<String,String> directives = requirement.getDirectives();
@@ -66,25 +67,25 @@ public class RequirementAnnotationsTestClass extends AnnotationsTestCase {
 						"doubleAttr", "versionAttr", "longList", "stringList",
 						"doubleList", "versionList");
 		String filterString = directives.get(REQUIREMENT_FILTER_DIRECTIVE);
-		Filter filter = getContext().createFilter(filterString);
+		Filter filter = context.createFilter(filterString);
 		assertThat(filter).as("requirement filter incorrect: %s", filterString)
-				.is(new FilterCondition(Maps.mapOf(namespace, name,
+				.is(new FilterCondition(asMap(dictionaryOf(namespace, name,
 						"foo", "bar", CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.3"))))
-				.isNot(new FilterCondition(Maps.mapOf(namespace, name,
+						Version.valueOf("1.3")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(namespace, name,
 						"foo", "bar", CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.2"))))
-				.is(new FilterCondition(Maps.mapOf(namespace, name,
+						Version.valueOf("1.2")))))
+				.is(new FilterCondition(asMap(dictionaryOf(namespace, name,
 						"foo", "bar", CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.9"))))
-				.isNot(new FilterCondition(Maps.mapOf(namespace, name,
+						Version.valueOf("1.9")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(namespace, name,
 						"foo", "bar", CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("2.0"))))
-				.isNot(new FilterCondition(Maps.mapOf(namespace, name,
-						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("1.3"))))
-				.isNot(new FilterCondition(Maps.mapOf(namespace, name,
+						Version.valueOf("2.0")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(namespace, name,
+						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("1.3")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(namespace, name,
 						"foo", "baz", CAPABILITY_VERSION_ATTRIBUTE,
-						Version.valueOf("1.3"))));
+						Version.valueOf("1.3")))));
 
 		Map<String,Object> attributes = requirement.getAttributes();
 		assertThat(attributes).as("requirement attributes")
@@ -112,7 +113,7 @@ public class RequirementAnnotationsTestClass extends AnnotationsTestCase {
 
 	@Test
 	public void testDirectlyAnnotatedDefaultOptions() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		Requirement requirement = getRequirement(namespace);
 		Map<String,String> directives = requirement.getDirectives();
 		assertThat(directives).as("requirement directives").isEmpty();
@@ -123,7 +124,7 @@ public class RequirementAnnotationsTestClass extends AnnotationsTestCase {
 
 	@Test
 	public void testDirectlyAnnotatedAttributes() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		Requirement requirement = getRequirement(namespace);
 		Map<String,String> directives = requirement.getDirectives();
 		assertThat(directives).as("requirement directives")
@@ -149,7 +150,7 @@ public class RequirementAnnotationsTestClass extends AnnotationsTestCase {
 
 	@Test
 	public void testDirectlyAnnotatedAttributesDefaults() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		Requirement requirement = getRequirement(namespace);
 		Map<String,String> directives = requirement.getDirectives();
 		assertThat(directives).as("requirement directives").isEmpty();
@@ -160,7 +161,7 @@ public class RequirementAnnotationsTestClass extends AnnotationsTestCase {
 
 	@Test
 	public void testOverriding() throws Exception {
-		String namespace = testName.getMethodName();
+		String namespace = testMethodName;
 		String name = "override";
 		Requirement requirement = getRequirement(namespace);
 		Map<String,String> directives = requirement.getDirectives();
@@ -169,16 +170,16 @@ public class RequirementAnnotationsTestClass extends AnnotationsTestCase {
 				.containsEntry("x-name", "Second")
 				.containsEntry("x-top-name", "fizzbuzz2");
 		String filterString = directives.get(REQUIREMENT_FILTER_DIRECTIVE);
-		Filter filter = getContext().createFilter(filterString);
+		Filter filter = context.createFilter(filterString);
 		assertThat(filter).as("requirement filter incorrect: %s", filterString)
-				.is(new FilterCondition(Maps.mapOf(namespace, name,
-						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("1.5"))))
-				.isNot(new FilterCondition(Maps.mapOf(namespace, name,
-						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("1.4"))))
-				.is(new FilterCondition(Maps.mapOf(namespace, name,
-						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("1.9"))))
-				.isNot(new FilterCondition(Maps.mapOf(namespace, name,
-						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("2.0"))));
+				.is(new FilterCondition(asMap(dictionaryOf(namespace, name,
+						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("1.5")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(namespace, name,
+						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("1.4")))))
+				.is(new FilterCondition(asMap(dictionaryOf(namespace, name,
+						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("1.9")))))
+				.isNot(new FilterCondition(asMap(dictionaryOf(namespace, name,
+						CAPABILITY_VERSION_ATTRIBUTE, Version.valueOf("2.0")))));
 
 		Map<String,Object> attributes = requirement.getAttributes();
 		assertThat(attributes).as("requirement attributes")

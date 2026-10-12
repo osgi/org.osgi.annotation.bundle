@@ -20,7 +20,7 @@
 		<byte-buddy.version>1.18.3</byte-buddy.version>
 		<osgi-test.version>1.4.0-SNAPSHOT</osgi-test.version>
 		<servicemix-junit.version>4.13.2_1</servicemix-junit.version>
-		<org.osgi.util.function.version>1.0.0</org.osgi.util.function.version>
+		<org.osgi.util.function.version>1.2.0</org.osgi.util.function.version>
 		<org.osgi.util.converter.version>1.0.9</org.osgi.util.converter.version>
 		<org.eclipse.osgi.version>3.24.300</org.eclipse.osgi.version>
 	</properties>

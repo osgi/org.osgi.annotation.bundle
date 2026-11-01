@@ -1,0 +1,87 @@
+# No java: — the test VM is the same as the build's. A fixed path would
+# only be valid on one machine; the minimum version a run requires is
+# recorded as jdk.run.minimum in the POM.
+-tester: biz.aQute.tester.junit-platform
+
+-runee: JavaSE-11
+
+-resolve.effective: active
+
+-runvm: ${def;argLine}, -Djava.security.manager=allow
+
+-runproperties: \
+	org.osgi.test.cases.bundle.annotations.bundle.symbolic.name=org.osgi.impl.bundle.annotations
+
+-runfw: org.apache.felix.framework
+
+
+# API overlays on the framework classpath (exports become system packages)
+-runpath: \
+
+
+# This will help us keep -runbundles sorted
+-runstartlevel: \
+    order=sortbynameversion,\
+    begin=-1
+
+# Test runtime versions: the Maven properties of tck/pom.xml, as the OSGi
+# range [x.y.z,x.y.z+1). version_cleanup turns 1.4.0-SNAPSHOT into 1.4.0.SNAPSHOT.
+tck.range: ${range;[===,==+);${version_cleanup;${1}}}
+
+-runrequires: \
+	bnd.identity;id='org.osgi.test.cases.bundle.annotations';version='${tck.range;${revision}}',\
+	bnd.identity;id='org.osgi.impl.bundle.annotations';version='${tck.range;${revision}}',\
+	bnd.identity;id='junit-jupiter-api';version='${tck.range;${junit-jupiter.version}}',\
+	bnd.identity;id='junit-jupiter-engine';version='${tck.range;${junit-jupiter.version}}',\
+	bnd.identity;id='junit-jupiter-params';version='${tck.range;${junit-jupiter.version}}',\
+	bnd.identity;id='junit-platform-commons';version='${tck.range;${junit-platform.version}}',\
+	bnd.identity;id='junit-platform-engine';version='${tck.range;${junit-platform.version}}',\
+	bnd.identity;id='junit-platform-launcher';version='${tck.range;${junit-platform.version}}',\
+	bnd.identity;id='org.opentest4j';version='${tck.range;${opentest4j.version}}',\
+	bnd.identity;id='assertj-core';version='${tck.range;${assertj.version}}',\
+	bnd.identity;id='junit-jupiter-api';version='${tck.range;${junit-jupiter.version}}',\
+	bnd.identity;id='junit-jupiter-engine';version='${tck.range;${junit-jupiter.version}}',\
+	bnd.identity;id='junit-jupiter-params';version='${tck.range;${junit-jupiter.version}}',\
+	bnd.identity;id='junit-platform-commons';version='${tck.range;${junit-platform.version}}',\
+	bnd.identity;id='junit-platform-engine';version='${tck.range;${junit-platform.version}}',\
+	bnd.identity;id='junit-platform-launcher';version='${tck.range;${junit-platform.version}}',\
+	bnd.identity;id='junit-vintage-engine';version='${tck.range;${junit-jupiter.version}}',\
+	bnd.identity;id='org.hamcrest';version='${tck.range;${hamcrest.version}}',\
+	bnd.identity;id='org.awaitility';version='${tck.range;${awaitility.version}}',\
+	bnd.identity;id='org.apache.servicemix.bundles.junit';version='${tck.range;${servicemix-junit.version}}',\
+	bnd.identity;id='org.opentest4j';version='${tck.range;${opentest4j.version}}',\
+	bnd.identity;id='org.osgi.test.common';version='${tck.range;${osgi-test.version}}',\
+	bnd.identity;id='org.osgi.test.assertj.framework';version='${tck.range;${osgi-test.version}}',\
+	bnd.identity;id='org.osgi.test.junit5';version='${tck.range;${osgi-test.version}}',\
+	bnd.identity;id='org.osgi.test.junit4';version='${tck.range;${osgi-test.version}}',\
+	bnd.identity;id='org.mockito.mockito-core';version='${tck.range;${mockito.version}}',\
+	bnd.identity;id='net.bytebuddy.byte-buddy';version='${tck.range;${byte-buddy.version}}',\
+	bnd.identity;id='net.bytebuddy.byte-buddy-agent';version='${tck.range;${byte-buddy.version}}',\
+	bnd.identity;id='org.objenesis';version='${tck.range;${objenesis.version}}'
+
+# -runbundles is committed and verified by the build; after a dependency
+# change update it with:
+#   mvn bnd-resolver:resolve
+-runbundles: \
+	assertj-core;version='${tck.range;${assertj.version}}',\
+	junit-jupiter-api;version='${tck.range;${junit-jupiter.version}}',\
+	junit-jupiter-engine;version='${tck.range;${junit-jupiter.version}}',\
+	junit-jupiter-params;version='${tck.range;${junit-jupiter.version}}',\
+	junit-platform-commons;version='${tck.range;${junit-platform.version}}',\
+	junit-platform-engine;version='${tck.range;${junit-platform.version}}',\
+	junit-platform-launcher;version='${tck.range;${junit-platform.version}}',\
+	junit-vintage-engine;version='${tck.range;${junit-jupiter.version}}',\
+	net.bytebuddy.byte-buddy;version='${tck.range;${byte-buddy.version}}',\
+	net.bytebuddy.byte-buddy-agent;version='${tck.range;${byte-buddy.version}}',\
+	org.apache.servicemix.bundles.junit;version='${tck.range;${servicemix-junit.version}}',\
+	org.awaitility;version='${tck.range;${awaitility.version}}',\
+	org.hamcrest;version='${tck.range;${hamcrest.version}}',\
+	org.mockito.mockito-core;version='${tck.range;${mockito.version}}',\
+	org.objenesis;version='${tck.range;${objenesis.version}}',\
+	org.opentest4j;version='${tck.range;${opentest4j.version}}',\
+	org.osgi.impl.bundle.annotations;version='${tck.range;${revision}}',\
+	org.osgi.test.assertj.framework;version='${tck.range;${osgi-test.version}}',\
+	org.osgi.test.cases.bundle.annotations;version='${tck.range;${revision}}',\
+	org.osgi.test.common;version='${tck.range;${osgi-test.version}}',\
+	org.osgi.test.junit4;version='${tck.range;${osgi-test.version}}',\
+	org.osgi.test.junit5;version='${tck.range;${osgi-test.version}}'
